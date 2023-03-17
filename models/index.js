@@ -20,5 +20,16 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.users = require("./user.model.js")(sequelize, Sequelize);
+db.tasks = require("./task.model.js")(sequelize, Sequelize);
+
+db.users.hasMany(db.tasks, {
+  foreignKey: 'user_id',
+  as: 'tasks'
+})
+
+db.tasks.belongsTo(db.users, {
+  foreignKey: 'user_id',
+  as: 'user'
+})
 
 module.exports = db;

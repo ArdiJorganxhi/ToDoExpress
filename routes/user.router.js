@@ -4,7 +4,7 @@ const {verifyLogin} = require('../common')
 
 
 router.get('/', verifyLogin, userController.findAll)
-router.get('/:id', verifyLogin, userController.findById)
 router.delete('/:id', verifyLogin, userController.deleteUser)
+router.get("/tasks", verifyLogin, userController.getTasks)
 
 module.exports = router

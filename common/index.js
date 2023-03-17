@@ -11,12 +11,14 @@ function verifyLogin(req, res, next){
     };
 
     let token = header.replace('Bearer ','')
-    
+
     jwt.verify(token, jwtSecret, function(err,decoded){
 
       if(err){
         return res.status(401).send({message: "Unauthorized"})
+        
       }
+      req.user = decoded;
       next();
     })
 }

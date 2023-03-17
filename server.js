@@ -30,9 +30,11 @@ app.get("/", (req, res) => {
 
 const authRouter = require('./routes/auth.router.js')
 const userRouter = require('./routes/user.router.js')
+const taskRouter = require('./routes/task.router.js')
 
 app.use('/api/auth', authRouter)
 app.use('/api/users', userRouter)
+app.use('/api/tasks', taskRouter)
 
 
 const PORT = process.env.PORT || 8080;
