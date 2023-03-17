@@ -1,6 +1,6 @@
 const taskController = require("../controllers/task.controller.js");
 const router = require("express").Router();
-const { verifyLogin } = require("../common");
+const { verifyLogin } = require("../common/verifyToken");
 
 router.post("/", verifyLogin, taskController.addTask);
 router.get("/", verifyLogin, taskController.findAllTasks);

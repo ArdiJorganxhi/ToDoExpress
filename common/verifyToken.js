@@ -20,14 +20,6 @@ function verifyLogin(req, res, next) {
   });
 }
 
-function verifyToken(req, res, next) {
-  verifyLogin(req, res, () => {
-    if (req.user.id === req.params.id) {
-      next();
-    } else {
-      res.status(403).json("You are not authorized to do that!");
-    }
-  });
-}
+
 
 module.exports.verifyLogin = verifyLogin;
