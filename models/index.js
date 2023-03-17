@@ -10,8 +10,8 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     max: dbConfig.pool.max,
     min: dbConfig.pool.min,
     acquire: dbConfig.pool.acquire,
-    idle: dbConfig.pool.idle
-  }
+    idle: dbConfig.pool.idle,
+  },
 });
 
 const db = {};
@@ -23,13 +23,13 @@ db.users = require("./user.model.js")(sequelize, Sequelize);
 db.tasks = require("./task.model.js")(sequelize, Sequelize);
 
 db.users.hasMany(db.tasks, {
-  foreignKey: 'user_id',
-  as: 'tasks'
-})
+  foreignKey: "user_id",
+  as: "tasks",
+});
 
 db.tasks.belongsTo(db.users, {
-  foreignKey: 'user_id',
-  as: 'user'
-})
+  foreignKey: "user_id",
+  as: "user",
+});
 
 module.exports = db;

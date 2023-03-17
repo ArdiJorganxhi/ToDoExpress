@@ -1,38 +1,33 @@
-require('dotenv').config();
-const jwt = require('jsonwebtoken')
+require("dotenv").config();
+const jwt = require("jsonwebtoken");
 const jwtSecret = process.env.JWT_SECRET;
 
-function verifyLogin(req, res, next){
+function verifyLogin(req, res, next) {
+  let header = req.header("Authorization");
 
-    let header = req.header('Authorization');
-    
-    if(!header){
-      return res.status(401).send({message: 'Unauthorized!'})
-    };
+  if (!header) {
+    return res.status(401).send({ message: "Unauthorized!" });
+  }
 
-    let token = header.replace('Bearer ','')
+  let token = header.replace("Bearer ", "");
 
-    jwt.verify(token, jwtSecret, function(err,decoded){
-
-      if(err){
-        return res.status(401).send({message: "Unauthorized"})
-        
-      }
-      req.user = decoded;
-      next();
-    })
+  jwt.verify(token, jwtSecret, function (err, decoded) {
+    if (err) {
+      return res.status(401).send({ message: "Unauthorized" });
+    }
+    req.user = decoded;
+    next();
+  });
 }
 
-function verifyToken(req, res, next){
+function verifyToken(req, res, next) {
   verifyLogin(req, res, () => {
     if (req.user.id === req.params.id) {
-        next();
+      next();
+    } else {
+      res.status(403).json("You are not authorized to do that!");
     }
-    else {
-        res.status(403).json("You are not authorized to do that!");
-    }
-});
+  });
 }
-
 
 module.exports.verifyLogin = verifyLogin;
