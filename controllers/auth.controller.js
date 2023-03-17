@@ -1,10 +1,11 @@
+require('dotenv').config();
 const db = require('../models')
 const User = db.users
 const Op = db.Sequelize.Op
 const bcrypt = require('bcryptjs')
 var salt = bcrypt.genSaltSync(10);
 var jwt = require('jsonwebtoken')
-const jwtSecret = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFyZGlqb3JnYW54aGlAZ21haWwuY29tIiwicGFzc3dvcmQiOjEyMzQ1Nn0.mI_agQZmV-4vqUohrAFFuCtYmPiYql0A5RPT5UDD0E'
+const jwtSecret = process.env.JWT_SECRET;
 
 
 
@@ -52,9 +53,9 @@ exports.login = async function (req, res){
         return res.status(400).send({message: "Passwords do not match!"})
     }
 
-    let token = jwt.sign({...user}, jwtSecret,{expiresIn: 60})
+    let token = jwt.sign({...user}, jwtSecret, {expiresIn: 60 * 60})
 
-    return res.status(200).send({token: token})
+    return res.status(200).send(token)
 
 
 }

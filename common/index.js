@@ -1,18 +1,36 @@
+require('dotenv').config();
 const jwt = require('jsonwebtoken')
-const jwtSecret = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFyZGlqb3JnYW54aGlAZ21haWwuY29tIiwicGFzc3dvcmQiOjEyMzQ1Nn0.mI_agQZmV-4vqUohrAFFuCtYmPiYql0A5RPT5UDD0E'
+const jwtSecret = process.env.JWT_SECRET;
 
 function verifyLogin(req, res, next){
 
     let header = req.header('Authorization');
+    
+    if(!header){
+      return res.status(401).send({message: 'Unauthorized!'})
+    };
 
-    jwt.verify(header, jwtSecret, function(err, decoded) {
-        if (err) {
-          return res.status(401).send({message: "Unauthorized!"})
-        }
+    let token = header.replace('Bearer ','')
+    
+    jwt.verify(token, jwtSecret, function(err,decoded){
+
+      if(err){
+        return res.status(401).send({message: "Unauthorized"})
+      }
+      next();
+    })
+}
+
+function verifyToken(req, res, next){
+  verifyLogin(req, res, () => {
+    if (req.user.id === req.params.id) {
         next();
-      });
-
+    }
+    else {
+        res.status(403).json("You are not authorized to do that!");
+    }
+});
 }
 
 
-module.exports.checkLogin = this.checkLogin;
+module.exports.verifyLogin = verifyLogin;
