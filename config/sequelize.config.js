@@ -1,4 +1,4 @@
-const dbConfig = require("../config/db.config.js");
+const dbConfig = require("./db.config.js");
 
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
@@ -19,8 +19,8 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.users = require("./user.model.js")(sequelize, Sequelize);
-db.tasks = require("./task.model.js")(sequelize, Sequelize);
+db.users = require("../models/user.model.js")(sequelize, Sequelize);
+db.tasks = require("../models/task.model.js")(sequelize, Sequelize);
 
 db.users.hasMany(db.tasks, {
   foreignKey: "user_id",

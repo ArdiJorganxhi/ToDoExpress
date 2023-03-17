@@ -1,4 +1,4 @@
-const db = require("../models");
+const db = require("../config/sequelize.config");
 const Task = db.tasks;
 
 exports.addTask = async function (req, res) {

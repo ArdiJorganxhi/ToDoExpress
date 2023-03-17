@@ -1,4 +1,4 @@
-const { sequelize, Sequelize } = require(".");
+const { sequelize, Sequelize } = require("./sequelize.config");
 
 module.exports = (sequelize, Sequelize) => {
   const Task = sequelize.define("tasks", {
