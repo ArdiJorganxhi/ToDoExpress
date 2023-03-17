@@ -28,6 +28,10 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome." });
 });
 
+const authRouter = require('./routes/auth.router.js')
+
+app.use('/api/auth', authRouter)
+
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
